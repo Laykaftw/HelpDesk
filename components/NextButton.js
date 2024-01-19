@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react'
 import { Svg, G, Circle } from 'react-native-svg';
 import { AntDesign } from "@expo/vector-icons"
 
-export default function NextButton({ percentage,scrollTo }) {
+export default function NextButton({ percentage, scrollTo }) {
     const size = 128;
     const strokeWidth = 2;
     const center = size / 2;
@@ -25,23 +25,23 @@ export default function NextButton({ percentage,scrollTo }) {
         animation(percentage);
     }, [percentage]);
 
-    useEffect(()=>{
-        progressAnimation.addListener((value)=>{
-            const strokeDashoffset=circumference-(circumference*value.value)/100;
-            if(progressRef?.current){
+    useEffect(() => {
+        progressAnimation.addListener((value) => {
+            const strokeDashoffset = circumference - (circumference * value.value) / 100;
+            if (progressRef?.current) {
                 progressRef.current.setNativeProps({
                     strokeDashoffset
                 })
             }
         },
-        [percentage]
-    );
+            [percentage]
+        );
 
-    return ()=>{
-        progressAnimation.removeAllListeners()
-    };
-},[]);
-    
+        return () => {
+            progressAnimation.removeAllListeners()
+        };
+    }, []);
+
     return (
         <View style={styles.container}>
             <Svg width={size} height={size}>
@@ -59,6 +59,7 @@ export default function NextButton({ percentage,scrollTo }) {
                     />
                 </G>
             </Svg>
+
             <TouchableOpacity onPress={scrollTo} style={styles.button} activeOpacity={0.6}>
                 <AntDesign name="arrowright" size={32} color="#fff" />
             </TouchableOpacity>

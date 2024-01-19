@@ -1,11 +1,11 @@
 import React, { useState, useRef } from "react";
-import { View, Text, StyleSheet, FlatList, Animated } from "react-native";
+import { View, Text, StyleSheet, FlatList, Animated,Alert } from "react-native";
 import slides from "../slides";
 import OnboardingItem from "./OnboardingItem";
 import Paginator from "./Paginator";
 import NextButton from "./NextButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { Checkbox } from "antd";
 
 const Onboarding = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -17,7 +17,7 @@ const Onboarding = () => {
     }).current;
 
     const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
-
+    var Skip=false
     const scrollTo = async () => {
         if (currentIndex < slides.length - 1 && slidesRef.current) { // Added null check for slidesRef
             slidesRef.current.scrollToIndex({ index: currentIndex + 1 });
@@ -52,6 +52,9 @@ const Onboarding = () => {
             </View>
             <Paginator data={slides} scrollX={scrollX} />
             <NextButton scrollTo={scrollTo} percentage={(currentIndex + 1) * (100 / slides.length)} />
+            {/* <TouchableOpacity>
+                <Text style={styles.skipBtn}>Skip</Text>
+            </TouchableOpacity> */}
         </View>
     );
 };
@@ -62,6 +65,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
+    skipBtn:{
+        fontWeight:"bold",
+        marginBottom:50,
+        fontSize:16,
+    }
 });
 
 export default Onboarding;

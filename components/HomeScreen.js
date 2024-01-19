@@ -2,8 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as LocalAuthentication from 'expo-local-authentication';
-import { Button } from '@ant-design/react-native';
-
+import { Button } from 'antd';
 export default function HomeScreen() {
     const clearOnboarding = async () => {
         try {
@@ -13,7 +12,7 @@ export default function HomeScreen() {
             console.log('Error removing onboarding data');
         }
     };
-    
+
     const [authenticationStatus, setAuthenticationStatus] = useState(null);
 
     const authenticate = async () => {
@@ -41,7 +40,13 @@ export default function HomeScreen() {
             <TouchableOpacity onPress={clearOnboarding}>
                 <Text>Clear Onboarding</Text>
             </TouchableOpacity>
-            
+            {/* {authenticationStatus ? (
+                <Text>{authenticationStatus}</Text>
+            ) : (
+                <Button title="Tap here to authenticate" onPress={authenticate} />
+            )} */}
+
+
         </View>
     );
 }

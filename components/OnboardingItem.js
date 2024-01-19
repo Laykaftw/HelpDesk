@@ -15,7 +15,7 @@ export default OnboardingItem = ({ item }) => {
         source={item.image}
         style={[styles.image, { width, resizeMode: "contain" }]}
       />
-      <View style={{ flex: 0.3 }}>
+      <View style={{ flex: 0.2 }}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.description}>{item.description}</Text>
       </View>
