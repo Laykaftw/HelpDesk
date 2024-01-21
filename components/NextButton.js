@@ -33,8 +33,7 @@ export default function NextButton({ percentage, scrollTo }) {
                     strokeDashoffset
                 })
             }
-        },
-            [percentage]
+        }, [percentage]
         );
 
         return () => {

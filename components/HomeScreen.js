@@ -1,9 +1,9 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as LocalAuthentication from 'expo-local-authentication';
-import { Button } from 'antd';
-export default function HomeScreen() {
+
+export default function HomeScreen({navigation}) {
     const clearOnboarding = async () => {
         try {
             await AsyncStorage.removeItem('@viewedOnboarding');
@@ -40,6 +40,8 @@ export default function HomeScreen() {
             <TouchableOpacity onPress={clearOnboarding}>
                 <Text>Clear Onboarding</Text>
             </TouchableOpacity>
+            <Button title='Onboarding' onPress={()=> navigation.navigate("Onboarding")}  />
+
             {/* {authenticationStatus ? (
                 <Text>{authenticationStatus}</Text>
             ) : (

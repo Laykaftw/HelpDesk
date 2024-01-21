@@ -1,61 +1,86 @@
 import React, { useState, useRef } from "react";
-import { View, Text, StyleSheet, FlatList, Animated,Alert } from "react-native";
+import { View, Text, StyleSheet, FlatList, Animated, Alert } from "react-native";
 import slides from "../slides";
 import OnboardingItem from "./OnboardingItem";
 import Paginator from "./Paginator";
 import NextButton from "./NextButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Checkbox } from "antd";
+import HomeScreen from "./HomeScreen";
+
+
 
 const Onboarding = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const slidesRef = useRef(null); // Added this line to declare slidesRef
+    const slidesRef = useRef(null);
     const scrollX = useRef(new Animated.Value(0)).current;
 
     const viewableItemsChanged = useRef(({ viewableItems }) => {
-        setCurrentIndex(viewableItems[0]?.index || 0); // Added optional chaining here
+        setCurrentIndex(viewableItems[0]?.index || 0);
     }).current;
 
     const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
-    var Skip=false
+
     const scrollTo = async () => {
-        if (currentIndex < slides.length - 1 && slidesRef.current) { // Added null check for slidesRef
+        if (currentIndex < slides.length - 1 && slidesRef.current) {
             slidesRef.current.scrollToIndex({ index: currentIndex + 1 });
         } else {
             try {
-                await AsyncStorage.setItem('@viewedOnboarding','true');
+                const onboardingPreference = await AsyncStorage.getItem('@viewedOnboarding');
+                if (!onboardingPreference || onboardingPreference !== 'true') {
+                    Alert.alert(
+                        'Onboarding Preference',
+                        'Do you want to see the onboarding slides every time you open the app?',
+                        [
+                            {
+                                text: 'No',
+                                onPress: async () => {
+                                    await AsyncStorage.setItem('@viewedOnboarding', 'true');
+                                    navigator.navigate('Home')
+                                },
+                                style: 'cancel',
+                            },
+                            {
+                                text: 'Yes',
+                                onPress: async () => {
+                                    await AsyncStorage.setItem('@viewedOnboarding', 'false');
+                                    <HomeScreen />
+                                },
+                            },
+
+                        ],
+                        { cancelable: false }
+                    );
+
+                }
             } catch (error) {
-                console.log("Error @setItem : ");
+                console.log("Error @setItem : ", error);
             }
         }
     };
 
     return (
-        <View style={styles.container}>
-            <View style={{ flex: 3 }}>
-                <FlatList
-                    ref={slidesRef}
-                    data={slides}
-                    renderItem={({ item }) => <OnboardingItem item={item} />}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    pagingEnabled
-                    bounces={false}
-                    keyExtractor={(item) => item.id}
-                    onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], {
-                        useNativeDriver: false,
-                    })}
-                    scrollEventThrottle={32}
-                    onViewableItemsChanged={viewableItemsChanged}
-                    viewabilityConfig={viewConfig}
-                />
+        <NavigationContainer>
+            <View style={styles.container}>
+                <View style={{ flex: 3 }}>
+                    <FlatList
+                        ref={slidesRef}
+                        data={slides}
+                        renderItem={({ item }) => <OnboardingItem item={item} />}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        pagingEnabled
+                        bounces={false}
+                        keyExtractor={(item) => item.id}
+                        onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], { useNativeDriver: false, })}
+                        scrollEventThrottle={32}
+                        onViewableItemsChanged={viewableItemsChanged}
+                        viewabilityConfig={viewConfig}
+                    />
+                </View>
+                <Paginator data={slides} scrollX={scrollX} />
+                <NextButton scrollTo={scrollTo} percentage={(currentIndex + 1) * (100 / slides.length)} />
             </View>
-            <Paginator data={slides} scrollX={scrollX} />
-            <NextButton scrollTo={scrollTo} percentage={(currentIndex + 1) * (100 / slides.length)} />
-            {/* <TouchableOpacity>
-                <Text style={styles.skipBtn}>Skip</Text>
-            </TouchableOpacity> */}
-        </View>
+        </NavigationContainer>
     );
 };
 
@@ -65,10 +90,10 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
-    skipBtn:{
-        fontWeight:"bold",
-        marginBottom:50,
-        fontSize:16,
+    skipBtn: {
+        fontWeight: "bold",
+        marginBottom: 50,
+        fontSize: 16,
     }
 });
 
