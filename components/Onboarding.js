@@ -9,7 +9,7 @@ import HomeScreen from "./HomeScreen";
 
 
 
-const Onboarding = () => {
+const Onboarding = ({navigation}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const slidesRef = useRef(null);
     const scrollX = useRef(new Animated.Value(0)).current;
@@ -34,16 +34,17 @@ const Onboarding = () => {
                             {
                                 text: 'No',
                                 onPress: async () => {
+                                    navigation.navigate('Home');
                                     await AsyncStorage.setItem('@viewedOnboarding', 'true');
-                                    navigator.navigate('Home')
+                                    
                                 },
                                 style: 'cancel',
                             },
                             {
                                 text: 'Yes',
                                 onPress: async () => {
+                                    navigation.navigate('Home');
                                     await AsyncStorage.setItem('@viewedOnboarding', 'false');
-                                    <HomeScreen />
                                 },
                             },
 
@@ -59,7 +60,6 @@ const Onboarding = () => {
     };
 
     return (
-        <NavigationContainer>
             <View style={styles.container}>
                 <View style={{ flex: 3 }}>
                     <FlatList
@@ -80,7 +80,6 @@ const Onboarding = () => {
                 <Paginator data={slides} scrollX={scrollX} />
                 <NextButton scrollTo={scrollTo} percentage={(currentIndex + 1) * (100 / slides.length)} />
             </View>
-        </NavigationContainer>
     );
 };
 

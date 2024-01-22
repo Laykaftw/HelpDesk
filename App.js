@@ -4,8 +4,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Onboarding from "./components/Onboarding";
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from 'react-native-screens/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from "./components/HomeScreen";
+import SendSMS from "./components/SendSMS";
+import SendEmail from "./components/SendEmail";
 
 const LoadingIndicator = () => {
   return (
@@ -40,9 +42,11 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Onboarding">
+      <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Onboarding" component={Onboarding} />
+        <Stack.Screen name="SMS" component={SendSMS} />
+        <Stack.Screen name="Email" component={SendEmail} />
       </Stack.Navigator>
       {/* <View style={styles.container}>
         {isLoading ? <LoadingIndicator /> : viewedOnboarding ? <HomeScreen /> : <Onboarding />}
