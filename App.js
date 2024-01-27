@@ -1,57 +1,43 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View, ActivityIndicator } from "react-native";
+import React, { useEffect, useMemo, useState } from "react";
+import { StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Onboarding from "./components/Onboarding";
-import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from "./components/HomeScreen";
+import Onboarding from "./components/Onboarding";
 import SendSMS from "./components/SendSMS";
 import SendEmail from "./components/SendEmail";
-
-const LoadingIndicator = () => {
-  return (
-    <View>
-      <ActivityIndicator size='large' />
-    </View>
-  );
-};
+import AuthScreen from "./components/AuthScreen";
 
 export default function App() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [viewedOnboarding, setViewedOnboarding] = useState(false);
+  const [viewedOnboarding, setViewedOnboarding] = useState(true);
   const Stack = createNativeStackNavigator();
-
-  // const checkOnboarding = async () => {
-  //   try {
-  //     const value = await AsyncStorage.getItem('@viewedOnboarding');
-
-  //     if (value !== null) {
-  //       setViewedOnboarding(true);
-  //     }
-  //   } catch (err) {
-  //     console.log('Error @ CheckOnboarding: ', err);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
+  const checkOnboarding = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@viewedOnboarding');
+      if (value === 'true') {
+        setViewedOnboarding(true);
+      } else {
+        setViewedOnboarding(false);
+      }
+    } catch (err) {
+      console.log('Error @ CheckOnboarding: ', err);
+    }
+  };
 
   useEffect(() => {
-    // checkOnboarding();
+    checkOnboarding();
   }, []);
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen name="Authentification" component={AuthScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Onboarding" component={Onboarding} />
         <Stack.Screen name="SMS" component={SendSMS} />
         <Stack.Screen name="Email" component={SendEmail} />
       </Stack.Navigator>
-      {/* <View style={styles.container}>
-        {isLoading ? <LoadingIndicator /> : viewedOnboarding ? <HomeScreen /> : <Onboarding />}
-        <StatusBar style="auto" />
-      </View> */}
     </NavigationContainer>
   );
 }

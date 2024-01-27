@@ -1,82 +1,172 @@
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, View, useWindowDimensions, Linking } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as LocalAuthentication from 'expo-local-authentication';
 import call from 'react-native-phone-call';
 import * as SMS from 'expo-sms';
+import { Button } from 'react-native-paper';
 
 export default function HomeScreen({ navigation }) {
-    // const clearOnboarding = async () => {
+    const clearOnboarding = async () => {
+        try {
+            await AsyncStorage.setItem('@viewedOnboarding','false');
+            console.log('cleared');
+        } catch (error) {
+            console.log('Error removing onboarding data');
+        }
+    };
+
+
+    const { width } = useWindowDimensions();
+
+    // const [authenticationStatus, setAuthenticationStatus] = useState(null);
+    // const [icon, setIcon] = useState('fingerprint');
+
+    // const authenticate = async () => {
     //     try {
-    //         await AsyncStorage.removeItem('@viewedOnboarding');
-    //         console.log('cleared');
+    //         const result = await LocalAuthentication.authenticateAsync();
+    //         if (result.success) {
+    //             setAuthenticationStatus('Authenticated');
+    //             setIcon('fingerprint');
+    //         } else {
+    //             setAuthenticationStatus('Authentication failed!');
+    //             setIcon('fingerprint-off');
+    //         }
     //     } catch (error) {
-    //         console.log('Error removing onboarding data');
+    //         console.error('Authentication error:', error);
+    //         setAuthenticationStatus('Authentication error');
     //     }
     // };
 
-    const [authenticationStatus, setAuthenticationStatus] = useState(null);
-
-    const authenticate = async () => {
-        try {
-            const result = await LocalAuthentication.authenticateAsync();
-            if (result.success) {
-                setAuthenticationStatus('Authentication successful!');
-            } else {
-                setAuthenticationStatus('Authentication failed!');
-            }
-        } catch (error) {
-            console.error('Authentication error:', error);
-            setAuthenticationStatus('Authentication error');
-        }
-    };
     const Call = () => {
         const args = {
             number: '94956426',
             prompt: true,
         };
-        call(args).catch(console.error)
-    }
-    // useEffect(() => {
-    //     // Uncomment the following line if you want to authenticate on app start
-    //     // authenticate();
-    // }, []);
+        call(args).catch(console.error);
+    };
+
     const [isAvailable, setIsAvailable] = useState(false);
     const [isMailAvailable, setIsMailAvailable] = useState(false);
+    const [isCallAvailable, setIsCallAvailable] = useState(false);
 
-    useEffect(async () => {
-        const isMavailable = await SMS.isAvailableAsync()
-        setIsMailAvailable(isMavailable)
-        const isSMSavailable = await SMS.isAvailableAsync()
-        setIsAvailable(isSMSavailable)
-        // Uncomment the following line if you want to authenticate on app start
-        // authenticate();
+    useEffect(() => {
+        async function checkMailAvailability() {
+            const isMavailable = await SMS.isAvailableAsync();
+            setIsMailAvailable(isMavailable);
+        }
+
+        async function checkCallAvailability() {
+            Linking.canOpenURL('tel:+123456789').then((isCavailable) => {
+                setIsCallAvailable(isCavailable);
+            });
+        }
+
+        async function checkSMSAvailability() {
+            const isSMSavailable = await SMS.isAvailableAsync();
+            setIsAvailable(isSMSavailable);
+        }
+
+        checkMailAvailability();
+        checkSMSAvailability();
+        checkCallAvailability();
     }, []);
-
 
     return (
         <View style={styles.container}>
             <View style={styles.containers}>
-                <Button title='Call ' onPress={Call} style={styles.button}/>
+                {isCallAvailable ? (
+                    <Button
+                        icon="phone"
+                        onPress={Call}
+                        style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
+                    >
+                        Call Us
+                    </Button>
+                ) : (
+                    <Button
+                        icon="phone-cancel"
+                        style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
+                    >
+                        Call Not Available
+                    </Button>
+                )}
             </View>
             <View style={styles.containers}>
-                {isAvailable ? <Button title='Send SMS' onPress={() => { navigation.navigate('SMS') }} style={styles.button} /> : <Text style={styles.text}>SMS not available</Text>}
+                {isAvailable ? (
+                    <Button
+                        style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
+                        onPress={() => navigation.navigate('SMS')}
+                        icon="message"
+                    >
+                        Send SMS
+                    </Button>
+                ) : (
+                    <Button
+                        style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
+                        icon="message-alert"
+                    >
+                        Send SMS
+                    </Button>
+                )}
             </View>
             <View style={styles.containers}>
-                {isMailAvailable ? <Button title='Send Email' onPress={() => { navigation.navigate('Email') }} style={styles.button} /> : <Text>Email not available</Text>}
+                {isMailAvailable ? (
+                    <Button
+                        style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
+                        icon="email-edit"
+                        onPress={() => navigation.navigate('Email')}
+                    >
+                        Send Email
+                    </Button>
+                ) : (
+                    <Button
+                        style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
+                        icon="email-remove"
+                    >
+                        Email Not Available
+                    </Button>
+                )}
             </View>
-
-            {/* <Text>HomeScreen</Text>
-            <TouchableOpacity onPress={clearOnboarding}>
-                <Text>Clear Onboarding</Text>
-            </TouchableOpacity>
-            <Button style={styles.Button} title='Onboarding' onPress={() => navigation.navigate("Onboarding")} />
-
-            {authenticationStatus ? (
-                <Text>{authenticationStatus}</Text>
-            ) : (
-                <Button style={styles.button} title="Tap here to authenticate" onPress={authenticate} />
-            )} */}
+            <View style={styles.containers}>
+                <Button
+                    style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
+                    icon="help-box"
+                    onPress={() => navigation.navigate('Onboarding')}
+                >
+                    Onboarding
+                </Button>
+            </View>
+            <View style={styles.containers}>
+                <Button
+                    style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
+                    icon="block-helper"
+                    onPress={clearOnboarding}
+                >
+                    Clear Onboarding
+                </Button>
+            </View>
+            {/* <View style={styles.containers}>
+                <Button
+                    style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
+                    icon={icon}
+                    onPress={authenticate}
+                    disabled={authenticationStatus === 'Authenticated'}
+                >
+                    {authenticationStatus || 'Tap here to Authenticate'}
+                </Button>
+            </View> */}
+            <View style={styles.containers}>
+                <Button
+                    style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
+                    icon="block-helper"
+                    onPress={()=>{
+                        navigation.navigate("Authentification")
+                    }}
+                >
+                    Clear Authentication
+                </Button>
+            </View>
         </View>
     );
 }
@@ -84,29 +174,15 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#6C63FF',
+        backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
     },
-    text: {
-        fontWeight: "300",
-        color: "#fff",
-        textAlign: "center",
-        paddingHorizontal: 64,
-    },
-    // containers: {
-    //     flex: 0.3,
-    //     alignItems: 'center',
-    //     justifyContent: 'center',
-    // },
-    button: {
-        marginTop: 24,
-        width: 158,
-        height: 72,
-        borderRadius: 10,
+    containers: {
+        justifyContent: 'center',
+        height: 40,
+        margin: 20,
+        justifyContent: 'space-evenly',
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-
-    }
-});
+    },
+})

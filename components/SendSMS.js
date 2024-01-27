@@ -1,23 +1,24 @@
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import {  StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import React, { useState } from 'react';
 import * as SMS from 'expo-sms';
+import { Button, TextInput } from 'react-native-paper';
 
 const SendSMS = () => {
     const [message, setMessage] = useState('');
-
+    const {width}=useWindowDimensions()
     const sendSMS = async () => {
-        const { result } = await SMS.sendSMSAsync('94956426', message);
+        const { result } = await SMS.sendSMSAsync('+216 94956426', message);
     };
 
     return (
         <View style={styles.container}>
-            <TextInput
+            <TextInput 
                 style={styles.input}
                 placeholder='Write your message here'
                 value={message}
                 onChangeText={(text) => setMessage(text)}
             />
-            <Button title='Send My message' onPress={sendSMS} />
+            <Button buttonColor='#EAEAEA' style={styles.button} icon={'send'} onPress={sendSMS} >Send</Button>
         </View>
     );
 };
@@ -31,20 +32,19 @@ const styles = StyleSheet.create({
         backgroundColor: '#6C63FF',
     },
     input: {
-        height: 40,
+        height: 100,
         borderColor: 'gray',
         borderWidth: 1,
         borderRadius: 25,
         marginBottom: 20,
         padding: 10,
-        width: '100%',
+        width: '90%',
         height: 55,
         backgroundColor: 'white'
     },
-    button: {
-        backgroundColor: '#F4338F', // Set the button background color
-        color: '#fff', // Set the button text color
-    },
+    button:{
+        width:'60%'
+    }
 });
 
 export default SendSMS;

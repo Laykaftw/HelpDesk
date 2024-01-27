@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   description: {
-    fontWeight: "300",
+    fontWeight: "500",
     color: "#62656b",
     textAlign: "center",
     paddingHorizontal: 64,

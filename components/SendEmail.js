@@ -10,7 +10,7 @@ const SendEmail = () => {
         MailComposer.composeAsync({
             subject: subject,
             body: body,
-            recipients:'azerbensassi@gmail.com'
+            recipients:['azerbensassi@gmail.com']
         })
     }
     return (
@@ -22,7 +22,7 @@ const SendEmail = () => {
                 onChangeText={(text) => setsubject(text)}
             />
             <TextInput
-                style={styles.input}
+                style={styles.email}
                 placeholder='Describe your problem'
                 value={body}
                 onChangeText={(text) => setbody(text)}
@@ -51,6 +51,17 @@ const styles = StyleSheet.create({
         padding: 10,
         width: '90%',
         height: 55,
+        backgroundColor: 'white'
+    },
+    email: {
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        borderRadius: 25,
+        margin: 20,
+        padding: 10,
+        width: '90%',
+        height: 155,
         backgroundColor: 'white'
     },
 })
