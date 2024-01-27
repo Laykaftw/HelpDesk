@@ -30,10 +30,10 @@ export default function HomeScreen({ navigation }) {
             setAuthenticationStatus('Authentication error');
         }
     };
-    const Call =()=>{
-        const args ={
-            number:'94956426',
-            prompt:true,
+    const Call = () => {
+        const args = {
+            number: '94956426',
+            prompt: true,
         };
         call(args).catch(console.error)
     }
@@ -43,21 +43,29 @@ export default function HomeScreen({ navigation }) {
     // }, []);
     const [isAvailable, setIsAvailable] = useState(false);
     const [isMailAvailable, setIsMailAvailable] = useState(false);
+
     useEffect(async () => {
         const isMavailable = await SMS.isAvailableAsync()
         setIsMailAvailable(isMavailable)
         const isSMSavailable = await SMS.isAvailableAsync()
         setIsAvailable(isSMSavailable)
+        // Uncomment the following line if you want to authenticate on app start
+        // authenticate();
     }, []);
-    
+
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={Call}>
-                <Text>Call</Text>
-            </TouchableOpacity>
-            {isAvailable ? <Button title='Send SMS' onPress={()=>{navigation.navigate('SMS')}}/> : <Text>SMS not available</Text>}
-            {isMailAvailable ? <Button title='Send Email' onPress={()=>{navigation.navigate('Email')}}/> : <Text>Email not available</Text>}
+            <View style={styles.containers}>
+                <Button title='Call ' onPress={Call} style={styles.button}/>
+            </View>
+            <View style={styles.containers}>
+                {isAvailable ? <Button title='Send SMS' onPress={() => { navigation.navigate('SMS') }} style={styles.button} /> : <Text style={styles.text}>SMS not available</Text>}
+            </View>
+            <View style={styles.containers}>
+                {isMailAvailable ? <Button title='Send Email' onPress={() => { navigation.navigate('Email') }} style={styles.button} /> : <Text>Email not available</Text>}
+            </View>
+
             {/* <Text>HomeScreen</Text>
             <TouchableOpacity onPress={clearOnboarding}>
                 <Text>Clear Onboarding</Text>
@@ -80,4 +88,25 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    text: {
+        fontWeight: "300",
+        color: "#fff",
+        textAlign: "center",
+        paddingHorizontal: 64,
+    },
+    // containers: {
+    //     flex: 0.3,
+    //     alignItems: 'center',
+    //     justifyContent: 'center',
+    // },
+    button: {
+        marginTop: 24,
+        width: 158,
+        height: 72,
+        borderRadius: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+
+    }
 });

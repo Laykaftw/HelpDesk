@@ -36,9 +36,9 @@ export default function App() {
   //   }
   // };
 
-  // useEffect(() => {
-  //   checkOnboarding();
-  // }, []);
+  useEffect(() => {
+    // checkOnboarding();
+  }, []);
 
   return (
     <NavigationContainer>
