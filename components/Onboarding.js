@@ -5,8 +5,6 @@ import OnboardingItem from "./OnboardingItem";
 import Paginator from "./Paginator";
 import NextButton from "./NextButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import HomeScreen from "./HomeScreen";
-
 
 
 const Onboarding = ({navigation}) => {
@@ -89,11 +87,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
-    skipBtn: {
-        fontWeight: "bold",
-        marginBottom: 50,
-        fontSize: 16,
-    }
 });
 
 export default Onboarding;
