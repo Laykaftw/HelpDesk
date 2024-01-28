@@ -128,7 +128,7 @@ export default function HomeScreen({ navigation }) {
                     </Button>
                 )}
             </View>
-            <View style={styles.containers}>
+            {/* <View style={styles.containers}>
                 <Button
                     style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
                     icon="help-box"
@@ -145,7 +145,7 @@ export default function HomeScreen({ navigation }) {
                 >
                     Clear Onboarding
                 </Button>
-            </View>
+            </View> */}
             {/* <View style={styles.containers}>
                 <Button
                     style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
@@ -159,12 +159,23 @@ export default function HomeScreen({ navigation }) {
             <View style={styles.containers}>
                 <Button
                     style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
-                    icon="block-helper"
+                    icon="account-off"
                     onPress={()=>{
                         navigation.navigate("Authentification")
                     }}
                 >
-                    Clear Authentication
+                    Log Out
+                </Button>
+            </View>
+            <View style={styles.containers}>
+                <Button
+                    style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
+                    icon="plus-circle"
+                    onPress={()=>{
+                        navigation.navigate("AdminLog")
+                    }}
+                >
+                    Add New Support
                 </Button>
             </View>
         </View>
