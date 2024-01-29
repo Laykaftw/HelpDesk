@@ -10,6 +10,7 @@ import SendEmail from "./components/SendEmail";
 import AuthScreen from "./components/AuthScreen";
 import AddSupport from "./components/AddSupport";
 import AdminLog from "./components/AdminLog";
+import History from "./components/History";
 
 export default function App() {
   // const [viewedOnboarding, setViewedOnboarding] = useState(true);
@@ -33,7 +34,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Authentification" component={AuthScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Onboarding" component={Onboarding} />
@@ -41,6 +42,7 @@ export default function App() {
         <Stack.Screen name="Email" component={SendEmail} />
         <Stack.Screen name="Add Support" component={AddSupport} />
         <Stack.Screen name="AdminLog" component={AdminLog} />
+        <Stack.Screen name="History" component={History} />
       </Stack.Navigator>
     </NavigationContainer>
   );

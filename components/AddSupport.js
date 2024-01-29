@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import { Button, TextInput } from 'react-native-paper'
-
+import { addSupport } from './DataBase';
 
 const AddSupport = () => {
     const [name, setname] =useState('')
@@ -28,7 +28,7 @@ const AddSupport = () => {
                 value={email}
                 onChangeText={(text) => setemail(text)}
             />
-            <Button>Add</Button>
+            <Button onPress={addSupport(name,phone,email)}>Add</Button>
         </View>
     )
 }

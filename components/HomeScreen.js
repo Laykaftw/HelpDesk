@@ -7,14 +7,14 @@ import * as SMS from 'expo-sms';
 import { Button } from 'react-native-paper';
 
 export default function HomeScreen({ navigation }) {
-    const clearOnboarding = async () => {
-        try {
-            await AsyncStorage.setItem('@viewedOnboarding','false');
-            console.log('cleared');
-        } catch (error) {
-            console.log('Error removing onboarding data');
-        }
-    };
+    // const clearOnboarding = async () => {
+    //     try {
+    //         await AsyncStorage.setItem('@viewedOnboarding','false');
+    //         console.log('cleared');
+    //     } catch (error) {
+    //         console.log('Error removing onboarding data');
+    //     }
+    // };
 
 
     const { width } = useWindowDimensions();

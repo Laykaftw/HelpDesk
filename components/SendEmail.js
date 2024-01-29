@@ -1,8 +1,10 @@
-import { Button, StyleSheet, TextInput, View } from 'react-native'
+import { StyleSheet, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import * as MailComposer from 'expo-mail-composer'
+import { Button } from 'react-native-paper';
+import { addEmailToHistory } from './DataBase'; 
 
-const SendEmail = () => {
+const SendEmail = ({ navigation },id) => {
     const [subject, setsubject] = useState('');
     const [body, setbody] = useState('');
 
@@ -11,8 +13,15 @@ const SendEmail = () => {
             subject: subject,
             body: body,
             recipients:['azerbensassi@gmail.com']
-        })
+        }).then(result => {
+            console.log(result)
+            if (result.status === 'sent') {
+                // If the email is sent successfully, add it to the history
+                addEmailToHistory(subject, body);
+            }
+        });
     }
+
     return (
         <View>
             <TextInput
@@ -27,7 +36,10 @@ const SendEmail = () => {
                 value={body}
                 onChangeText={(text) => setbody(text)}
             />
-            <Button title='Send' onPress={Mail}/>
+            <Button onPress={Mail}>Send</Button>
+            <View>
+                <Button icon={'history'} onPress={() => navigation.navigate('History')}>History</Button>
+            </View>
         </View>
     )
 }
