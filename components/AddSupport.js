@@ -1,12 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet,  View } from 'react-native'
 import React, { useState } from 'react'
 import { Button, TextInput } from 'react-native-paper'
 import { addSupport } from './DataBase';
 
-const AddSupport = () => {
+const AddSupport = ({navigation}) => {
     const [name, setname] =useState('')
     const [phone, setphone] =useState('')
     const [email, setemail] =useState('')
+    const handleAddSupport = () => {
+        addSupport(name, phone, email);
+        setname('');
+        setphone('');
+        setemail('');
+        navigation.navigate('Home');
+    }
     return (
         <View style={styles.container}>
             <TextInput
@@ -28,7 +35,7 @@ const AddSupport = () => {
                 value={email}
                 onChangeText={(text) => setemail(text)}
             />
-            <Button onPress={addSupport(name,phone,email)}>Add</Button>
+            <Button onPress={handleAddSupport}>Add</Button>
         </View>
     )
 }

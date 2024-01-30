@@ -33,7 +33,7 @@ const History = () => {
                     </View>
                 ))}
             </View>
-            <Button onPress={handleResetHistory}>Reset History</Button>
+            <Button icon={'delete-empty'} onPress={handleResetHistory} style={{padding:10,width:200,marginTop:20,borderColor:'#6C63FF',borderWidth:1,backgroundColor:'white'}}>Reset History</Button>
         </View>
     );
 };
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 10,
+        color:'#6C63FF'
     },
     emailContainer: {
         marginBottom: 20,

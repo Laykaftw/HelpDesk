@@ -1,54 +1,19 @@
-import { StyleSheet, View, useWindowDimensions, Linking } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as LocalAuthentication from 'expo-local-authentication';
+import { StyleSheet, View, useWindowDimensions, Linking } from 'react-native';
 import call from 'react-native-phone-call';
 import * as SMS from 'expo-sms';
 import { Button } from 'react-native-paper';
+import { SelectList } from 'react-native-dropdown-select-list'; // Import SelectList
+import { getSupportList, getSelectedPhone } from './DataBase';
 
 export default function HomeScreen({ navigation }) {
-    // const clearOnboarding = async () => {
-    //     try {
-    //         await AsyncStorage.setItem('@viewedOnboarding','false');
-    //         console.log('cleared');
-    //     } catch (error) {
-    //         console.log('Error removing onboarding data');
-    //     }
-    // };
-
-
-    const { width } = useWindowDimensions();
-
-    // const [authenticationStatus, setAuthenticationStatus] = useState(null);
-    // const [icon, setIcon] = useState('fingerprint');
-
-    // const authenticate = async () => {
-    //     try {
-    //         const result = await LocalAuthentication.authenticateAsync();
-    //         if (result.success) {
-    //             setAuthenticationStatus('Authenticated');
-    //             setIcon('fingerprint');
-    //         } else {
-    //             setAuthenticationStatus('Authentication failed!');
-    //             setIcon('fingerprint-off');
-    //         }
-    //     } catch (error) {
-    //         console.error('Authentication error:', error);
-    //         setAuthenticationStatus('Authentication error');
-    //     }
-    // };
-
-    const Call = () => {
-        const args = {
-            number: '94956426',
-            prompt: true,
-        };
-        call(args).catch(console.error);
-    };
-
+    const [isCallAvailable, setIsCallAvailable] = useState(false);
     const [isAvailable, setIsAvailable] = useState(false);
     const [isMailAvailable, setIsMailAvailable] = useState(false);
-    const [isCallAvailable, setIsCallAvailable] = useState(false);
+    const { width } = useWindowDimensions();
+    const [supportOptions, setSupportOptions] = useState([]);
+    const [selectedSupport, setSelectedSupport] = useState('');
+    const [recipient, setRecipient] = useState('');
 
     useEffect(() => {
         async function checkMailAvailability() {
@@ -67,18 +32,82 @@ export default function HomeScreen({ navigation }) {
             setIsAvailable(isSMSavailable);
         }
 
+        async function fetchSupportOptions() {
+            getSupportList((supportItems) => {
+                const options = supportItems.map((item) => ({
+                    key: item.id.toString(),
+                    value: item.Name,
+                }));
+                setSupportOptions(options);
+            });
+        }
+
         checkMailAvailability();
         checkSMSAvailability();
         checkCallAvailability();
+        fetchSupportOptions();
     }, []);
 
+
+
+    const handlePhone = (selectedPhone) => {
+        if (selectedPhone) {
+            // Set the recipient state with the retrieved phone number
+            setRecipient(selectedPhone);
+            // console.log('recipient :  ',recipient)
+        } else {
+            // Handle the case where no phone number is found for the selected ID
+            console.error('No phone number found for the selected ID.');
+        }
+    };
+    const Call = (r) => {
+        console.log('recipient : ', recipient)
+        const args = {
+            number: r,
+            prompt: true,
+        };
+        call(args).catch(console.error);
+    };
+    const HandleCall = () => {
+        if (selectedSupport) {
+            getSelectedPhone(selectedSupport, (selectedPhone) => {
+                if (selectedPhone) {
+                    Call(selectedPhone);
+                } else {
+                    console.error('No phone number found for the selected support.');
+                }
+            });
+        } else {
+            console.error('No support option selected.');
+        }
+    };
+    
     return (
         <View style={styles.container}>
+            <View style={{ width: width - 30 }}>
+                <SelectList
+                    placeholder='Select a Support Option'
+                    setSelected={(val) => setSelectedSupport(val)}
+                    onSelect={(selectedId) => {
+                        if (selectedId) {
+                            getSelectedPhone(selectedId, handlePhone);
+                        }
+                    }}
+                    boxStyles={{margin: 20,padding: 10,borderColor:'#6C63FF',borderRadius:15, alignItems:'center'}}
+                    dropdownStyles={{borderColor:'#6C63FF'}}
+                    inputStyles={{color:'#6C63FF'}}
+                    data={supportOptions}
+                    save="value"
+                    zIndex={3000}
+                    style={{ width: width - 10, backgroundColor: '#EAEAEA' }}
+                />
+
+            </View>
             <View style={styles.containers}>
-                {isCallAvailable ? (
+                {isCallAvailable == true && selectedSupport != '' ? (
                     <Button
                         icon="phone"
-                        onPress={Call}
+                        onPress={HandleCall}
                         style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
                     >
                         Call Us
@@ -93,10 +122,10 @@ export default function HomeScreen({ navigation }) {
                 )}
             </View>
             <View style={styles.containers}>
-                {isAvailable ? (
+                {isAvailable == true && selectedSupport != '' ? (
                     <Button
                         style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
-                        onPress={() => navigation.navigate('SMS')}
+                        onPress={() => navigation.navigate('SMS', { id: selectedSupport })}
                         icon="message"
                     >
                         Send SMS
@@ -106,16 +135,16 @@ export default function HomeScreen({ navigation }) {
                         style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
                         icon="message-alert"
                     >
-                        Send SMS
+                        SMS not available
                     </Button>
                 )}
             </View>
             <View style={styles.containers}>
-                {isMailAvailable ? (
+                {isMailAvailable == true && selectedSupport != '' ? (
                     <Button
                         style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
                         icon="email-edit"
-                        onPress={() => navigation.navigate('Email')}
+                        onPress={() => navigation.navigate('Email', { id: selectedSupport })}
                     >
                         Send Email
                     </Button>
@@ -128,40 +157,12 @@ export default function HomeScreen({ navigation }) {
                     </Button>
                 )}
             </View>
-            {/* <View style={styles.containers}>
-                <Button
-                    style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
-                    icon="help-box"
-                    onPress={() => navigation.navigate('Onboarding')}
-                >
-                    Onboarding
-                </Button>
-            </View>
-            <View style={styles.containers}>
-                <Button
-                    style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
-                    icon="block-helper"
-                    onPress={clearOnboarding}
-                >
-                    Clear Onboarding
-                </Button>
-            </View> */}
-            {/* <View style={styles.containers}>
-                <Button
-                    style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
-                    icon={icon}
-                    onPress={authenticate}
-                    disabled={authenticationStatus === 'Authenticated'}
-                >
-                    {authenticationStatus || 'Tap here to Authenticate'}
-                </Button>
-            </View> */}
             <View style={styles.containers}>
                 <Button
                     style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
                     icon="account-off"
-                    onPress={()=>{
-                        navigation.navigate("Authentification")
+                    onPress={() => {
+                        navigation.navigate('Authentification');
                     }}
                 >
                     Log Out
@@ -171,8 +172,8 @@ export default function HomeScreen({ navigation }) {
                 <Button
                     style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
                     icon="plus-circle"
-                    onPress={()=>{
-                        navigation.navigate("AdminLog")
+                    onPress={() => {
+                        navigation.navigate('AdminLog');
                     }}
                 >
                     Add New Support
@@ -196,4 +197,4 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         flexDirection: 'row',
     },
-})
+});

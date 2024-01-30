@@ -41,6 +41,16 @@ const resetHistory = () => {
         );
     });
 }
+const resetSupport = () => {
+    db.transaction(tx => {
+        tx.executeSql(
+            'DELETE FROM Support;',
+            [],
+            () => console.log('Support reseted'),
+            (_, error) => console.error('Error resetting support:', error)
+        );
+    });
+}
 
 
 const addEmailToHistory = (subject, body) => {
@@ -78,7 +88,44 @@ const getEmailHistory = (callback) => {
         );
     });
 };
-const getSupport = (callback) => {
+const getSelectedPhone = (sid, callback) => {
+    db.transaction(tx => {
+        tx.executeSql(
+            'SELECT Phone FROM Support WHERE Name=?',
+            [sid],
+            (_, { rows }) => {
+                if (rows.length > 0) {
+                    const phone = rows.item(0).Phone;
+                    callback(phone);
+                } else {
+                    callback(null); // No support found with the given ID
+                }
+            },
+            (_, error) => console.error('Error retrieving support phone:', error)
+        );
+    });
+};
+
+const getSelectedEmail = (sid, callback) => {
+    db.transaction(tx => {
+        tx.executeSql(
+            'SELECT Email FROM Support WHERE Name=?',
+            [sid],
+            (_, { rows }) => {
+                if (rows.length > 0) {
+                    const email = rows.item(0).Email;
+                    callback(email);
+                } else {
+                    callback(null); // No support found with the given ID
+                }
+            },
+            (_, error) => console.error('Error retrieving support email:', error)
+        );
+    });
+};
+
+
+const getSupportList = (callback) => {
     db.transaction(tx => {
         tx.executeSql(
             'SELECT * FROM Support ',
@@ -92,4 +139,4 @@ const getSupport = (callback) => {
     });
 };
 
-export { addEmailToHistory, getEmailHistory,resetHistory,addSupport,getSupport };
+export { addEmailToHistory, getEmailHistory,resetHistory,addSupport,getSupportList,resetSupport,getSelectedPhone ,getSelectedEmail};
