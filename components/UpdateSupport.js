@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
         padding: 10,
         width: 200,
         marginTop: 20,
-        borderColor: '#6C63FF',
+        borderColor: '#367CFF',
         borderWidth: 1,
     }
 });

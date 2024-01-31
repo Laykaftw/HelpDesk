@@ -41,7 +41,7 @@ const AdminLog = ({navigation}) => {
                 onChangeText={(text) => setPass(text)}
                 secureTextEntry={true}
             />
-            <Button  style={{width:200,height:50,alignContent:'center'}} buttonColor='#6C63FF' textColor='white' onPress={() => checkAdmin(user, pass)}>Log in</Button>
+            <Button  style={{width:200,height:50,alignContent:'center'}} buttonColor='#367CFF' textColor='white' onPress={() => checkAdmin(user, pass)}>Log in</Button>
         </View>
     )
 }

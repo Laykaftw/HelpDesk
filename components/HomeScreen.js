@@ -95,7 +95,7 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.container}>
             <View style={{ width: width - 30 }}>
                 <SelectList
-                    placeholder='Select a Support Option'
+                    placeholder='Select the Department'
                     setSelected={(item) => setSelectedSupport(item)}
                     onSelect={(selectedId) => {
                         if (selectedId) {
@@ -103,9 +103,9 @@ export default function HomeScreen({ navigation }) {
                             getSelectedPhone(selectedId, handlePhone);
                         }
                     }}
-                    boxStyles={{margin: 20,padding: 10,borderColor:'#6C63FF',borderRadius:15, alignItems:'center'}}
-                    dropdownStyles={{borderColor:'#6C63FF'}}
-                    inputStyles={{color:'#6C63FF'}}
+                    boxStyles={{margin: 20,padding: 10,borderColor:'#367CFF',borderRadius:15, alignItems:'center'}}
+                    dropdownStyles={{borderColor:'#367CFF'}}
+                    inputStyles={{color:'#367CFF'}}
                     data={supportOptions}
                     zIndex={3000}
                     style={{ width: width - 10, backgroundColor: '#EAEAEA' }}

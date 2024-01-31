@@ -1,6 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React from "react";
 import { StyleSheet } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from "./components/HomeScreen";
@@ -15,28 +14,12 @@ import ManageSupport from "./components/ManageSupport";
 import UpdateSupport from "./components/UpdateSupport";
 
 export default function App() {
-  // const [viewedOnboarding, setViewedOnboarding] = useState(true);
   const Stack = createNativeStackNavigator();
-  // const checkOnboarding = async () => {
-  //   try {
-  //     const value = await AsyncStorage.getItem('@viewedOnboarding');
-  //     if (value === 'true') {
-  //       setViewedOnboarding(true);
-  //     } else {
-  //       setViewedOnboarding(false);
-  //     }
-  //   } catch (err) {
-  //     console.log('Error @ CheckOnboarding: ', err);
-  //   }
-  // };
-
-  useEffect(() => {
-    // checkOnboarding();
-  }, []);
+  
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator>
         <Stack.Screen name="Authentification" component={AuthScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Onboarding" component={Onboarding} />
@@ -52,11 +35,3 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

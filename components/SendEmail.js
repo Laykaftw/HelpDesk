@@ -61,10 +61,10 @@ const SendEmail = ({ navigation, route }) => {
                 data={data}
                 save="value"
                 zIndex={3000}
-                boxStyles={{margin: 20,padding: 10,borderColor:'#6C63FF',borderRadius:15,width:width-78, alignItems:'center'}}
-                dropdownStyles={{borderColor:'#6C63FF',height:120,width:width-80}}
-                inputStyles={{color:'#6C63FF'}}
-                dropdownTextStyles={{color:'#6C63FF'}}
+                boxStyles={{margin: 20,padding: 10,borderColor:'#367CFF',borderRadius:15,width:width-78, alignItems:'center'}}
+                dropdownStyles={{borderColor:'#367CFF',height:120,width:width-80}}
+                inputStyles={{color:'#367CFF'}}
+                dropdownTextStyles={{color:'#367CFF'}}
             >
             </SelectList>
             <TextInput
@@ -75,9 +75,9 @@ const SendEmail = ({ navigation, route }) => {
                 onChangeText={(text) => setBody(text)}
                 
             />
-            <Button onPress={handleSendEmail} buttonColor='white' style={{padding:10,width:200,marginTop:20,borderColor:'#6C63FF',borderWidth:1}}>Send</Button>
+            <Button onPress={handleSendEmail} buttonColor='white' style={{padding:10,width:200,marginTop:20,borderColor:'#367CFF',borderWidth:1}}>Send</Button>
             <View >
-                <Button buttonColor='white'  icon={'history'} onPress={() => navigation.navigate('History')} style={{padding:10,width:200,marginTop:20,borderColor:'#6C63FF',borderWidth:1}}>History</Button>
+                <Button buttonColor='white'  icon={'history'} onPress={() => navigation.navigate('History')} style={{padding:10,width:200,marginTop:20,borderColor:'#367CFF',borderWidth:1}}>History</Button>
             </View>
         </View>
     );
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     },
     input: {
         height: 40,
-        borderColor: '#6C63FF',
+        borderColor: '#367CFF',
         borderWidth: 1,
         borderRadius: 15,
         margin: 20,
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     },
     email: {
         height: 40,
-        borderColor: '#6C63FF',
+        borderColor: '#367CFF',
         borderWidth: 1,
         borderRadius: 15,
         margin: 20,

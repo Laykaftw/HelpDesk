@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
-        backgroundColor: '#6C63FF',
+        backgroundColor: '#367CFF',
     },
     input: {
         height: 100,
