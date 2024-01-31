@@ -51,6 +51,21 @@ const resetSupport = () => {
         );
     });
 }
+const deleteSelectedSupport = (id) => {
+    db.transaction(
+        (tx) => {
+            tx.executeSql(
+                'DELETE FROM Support WHERE id = ?;',
+                [id],
+                () => console.log('Support deleted successfully'),
+                (_, error) => console.error('Error deleting support:', error)
+            );
+        },
+        null,
+        null
+    );
+};
+
 
 
 const addEmailToHistory = (subject, body) => {
@@ -64,11 +79,11 @@ const addEmailToHistory = (subject, body) => {
     });
 };
 
-const addSupport = (Name, Phone,Email) => {
+const addSupport = (Name, Phone, Email) => {
     db.transaction(tx => {
         tx.executeSql(
             'INSERT INTO Support (Name, Phone,Email) VALUES (?, ?,?);',
-            [Name, Phone,Email],
+            [Name, Phone, Email],
             () => console.log('Support added to List'),
             (_, error) => console.error('Error adding support:', error)
         );
@@ -88,11 +103,11 @@ const getEmailHistory = (callback) => {
         );
     });
 };
-const getSelectedPhone = (sid, callback) => {
+const getSelectedPhone = (ID, callback) => {
     db.transaction(tx => {
         tx.executeSql(
-            'SELECT Phone FROM Support WHERE Name=?',
-            [sid],
+            'SELECT Phone FROM Support WHERE id=?',
+            [ID],
             (_, { rows }) => {
                 if (rows.length > 0) {
                     const phone = rows.item(0).Phone;
@@ -106,11 +121,11 @@ const getSelectedPhone = (sid, callback) => {
     });
 };
 
-const getSelectedEmail = (sid, callback) => {
+const getSelectedEmail = (ID, callback) => {
     db.transaction(tx => {
         tx.executeSql(
-            'SELECT Email FROM Support WHERE Name=?',
-            [sid],
+            'SELECT Email FROM Support WHERE id=?',
+            [ID],
             (_, { rows }) => {
                 if (rows.length > 0) {
                     const email = rows.item(0).Email;
@@ -131,12 +146,54 @@ const getSupportList = (callback) => {
             'SELECT * FROM Support ',
             [],
             (_, { rows }) => {
-                const Support = rows._array;
-                callback(Support);
+                const supportItems = rows._array;
+                callback(supportItems)
             },
             (_, error) => console.error('Error retrieving support list :', error)
         );
     });
 };
 
-export { addEmailToHistory, getEmailHistory,resetHistory,addSupport,getSupportList,resetSupport,getSelectedPhone ,getSelectedEmail};
+
+const getSelectedSupport = async (id) => {
+    return new Promise((resolve, reject) => {
+        db.transaction(tx => {
+            tx.executeSql(
+                'SELECT * FROM Support WHERE id = ?',
+                [id],
+                (_, { rows }) => {
+                    if (rows.length > 0) {
+                        const support = rows.item(0);
+                        resolve(support);
+                    } else {
+                        reject(new Error('Support not found'));
+                    }
+                },
+                (_, error) => {
+                    reject(error);
+                }
+            );
+        });
+    });
+};
+
+const updateSupport = async (id, name, phone, email) => {
+    console.log(id, name, phone, email)
+    return new Promise((resolve, reject) => {
+        db.transaction(tx => {
+            tx.executeSql(
+                'UPDATE Support SET Name = ?, Phone = ?, Email = ? WHERE id = ?',
+                [name, phone, email, id],
+                () => {
+                    resolve();
+                    console.log("Updated")
+                },
+                (_, error) => {
+                    reject(error);
+                }
+            );
+        });
+    });
+};
+
+export { addEmailToHistory, getEmailHistory, resetHistory, addSupport, getSupportList, resetSupport, getSelectedPhone, getSelectedEmail, deleteSelectedSupport, getSelectedSupport, updateSupport };

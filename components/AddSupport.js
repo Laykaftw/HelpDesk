@@ -1,55 +1,63 @@
-import { StyleSheet,  View } from 'react-native'
-import React, { useState } from 'react'
-import { Button, TextInput } from 'react-native-paper'
+import React, { useState } from 'react';
+import { StyleSheet, View, TextInput, Alert } from 'react-native';
+import { Button } from 'react-native-paper';
 import { addSupport } from './DataBase';
 
-const AddSupport = ({navigation}) => {
-    const [name, setname] =useState('')
-    const [phone, setphone] =useState('')
-    const [email, setemail] =useState('')
+const AddSupport = ({ navigation }) => {
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [email, setEmail] = useState('');
+
     const handleAddSupport = () => {
+        if (!name || !phone || !email) {
+            Alert.alert('Missing Information', 'Please fill in all fields.');
+            return;
+        }
+
         addSupport(name, phone, email);
-        setname('');
-        setphone('');
-        setemail('');
-        navigation.navigate('Home');
-    }
+        setName('');
+        setPhone('');
+        setEmail('');
+        navigation.navigate('Manage Support');
+    };
+
     return (
         <View style={styles.container}>
             <TextInput
                 style={styles.input}
-                placeholder='Company Name'
+                placeholder='Department Name'
                 value={name}
-                onChangeText={(text) => setname(text)}
+                onChangeText={(text) => setName(text)}
             />
             <TextInput
-                inputMode='tel'
                 style={styles.input}
                 placeholder='Phone Number'
+                keyboardType='phone-pad'
                 value={phone}
-                onChangeText={(text) => setphone(text)}
+                onChangeText={(text) => setPhone(text)}
             />
             <TextInput
                 style={styles.input}
                 placeholder='Email'
+                keyboardType='email-address'
                 value={email}
-                onChangeText={(text) => setemail(text)}
+                onChangeText={(text) => setEmail(text)}
             />
             <Button onPress={handleAddSupport}>Add</Button>
         </View>
-    )
-}
+    );
+};
 
-export default AddSupport
+export default AddSupport;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
+        // justifyContent: 'center',
     },
-    input :{
+    input: {
         height: 40,
         borderColor: 'gray',
         borderWidth: 1,
@@ -58,6 +66,6 @@ const styles = StyleSheet.create({
         padding: 10,
         width: '90%',
         height: 55,
-        backgroundColor: 'white'
-    }
-})
+        backgroundColor: 'white',
+    },
+});

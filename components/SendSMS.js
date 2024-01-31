@@ -20,7 +20,6 @@ const SendSMS = ({ route }) => {
         if (selectedPhone) {
             // Set the recipient state with the retrieved phone number
             setRecipient(selectedPhone);
-            console.log('recipient :  ',recipient)
         } else {
             // Handle the case where no phone number is found for the selected ID
             console.error('No phone number found for the selected ID.');

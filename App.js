@@ -11,6 +11,8 @@ import AuthScreen from "./components/AuthScreen";
 import AddSupport from "./components/AddSupport";
 import AdminLog from "./components/AdminLog";
 import History from "./components/History";
+import ManageSupport from "./components/ManageSupport";
+import UpdateSupport from "./components/UpdateSupport";
 
 export default function App() {
   // const [viewedOnboarding, setViewedOnboarding] = useState(true);
@@ -43,6 +45,8 @@ export default function App() {
         <Stack.Screen name="Add Support" component={AddSupport} />
         <Stack.Screen name="AdminLog" component={AdminLog} />
         <Stack.Screen name="History" component={History} />
+        <Stack.Screen name="Manage Support" component={ManageSupport} />
+        <Stack.Screen name="Update Support" component={UpdateSupport} />
       </Stack.Navigator>
     </NavigationContainer>
   );

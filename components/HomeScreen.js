@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, View, useWindowDimensions, Linking } from 'react-native';
 import call from 'react-native-phone-call';
 import * as SMS from 'expo-sms';
 import { Button } from 'react-native-paper';
 import { SelectList } from 'react-native-dropdown-select-list'; // Import SelectList
 import { getSupportList, getSelectedPhone } from './DataBase';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function HomeScreen({ navigation }) {
     const [isCallAvailable, setIsCallAvailable] = useState(false);
@@ -32,21 +33,29 @@ export default function HomeScreen({ navigation }) {
             setIsAvailable(isSMSavailable);
         }
 
-        async function fetchSupportOptions() {
-            getSupportList((supportItems) => {
-                const options = supportItems.map((item) => ({
-                    key: item.id.toString(),
-                    value: item.Name,
-                }));
-                setSupportOptions(options);
-            });
-        }
-
         checkMailAvailability();
         checkSMSAvailability();
         checkCallAvailability();
-        fetchSupportOptions();
     }, []);
+    
+    let options = []
+    useFocusEffect(
+        useCallback(() => {
+        async function fetchSupportOptions() {
+            // console.log('test')
+            getSupportList((supportItems) => {
+                options = supportItems.map((item) => ({
+                    key: item.id.toString(),
+                    value: item.Name,
+                }));
+                setSupportOptions(options)
+              //  supportOptions.push(options)
+
+            });
+        }
+        fetchSupportOptions();
+    }, []));
+    
 
 
 
@@ -87,9 +96,10 @@ export default function HomeScreen({ navigation }) {
             <View style={{ width: width - 30 }}>
                 <SelectList
                     placeholder='Select a Support Option'
-                    setSelected={(val) => setSelectedSupport(val)}
+                    setSelected={(item) => setSelectedSupport(item)}
                     onSelect={(selectedId) => {
                         if (selectedId) {
+                            console.log("selectedId",selectedId)
                             getSelectedPhone(selectedId, handlePhone);
                         }
                     }}
@@ -97,11 +107,10 @@ export default function HomeScreen({ navigation }) {
                     dropdownStyles={{borderColor:'#6C63FF'}}
                     inputStyles={{color:'#6C63FF'}}
                     data={supportOptions}
-                    save="value"
                     zIndex={3000}
                     style={{ width: width - 10, backgroundColor: '#EAEAEA' }}
                 />
-
+            
             </View>
             <View style={styles.containers}>
                 {isCallAvailable == true && selectedSupport != '' ? (
@@ -171,12 +180,14 @@ export default function HomeScreen({ navigation }) {
             <View style={styles.containers}>
                 <Button
                     style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
-                    icon="plus-circle"
+                    icon="align-horizontal-left"
                     onPress={() => {
-                        navigation.navigate('AdminLog');
+                        // navigation.navigate('AdminLog');
+                        navigation.navigate('Manage Support');
+
                     }}
                 >
-                    Add New Support
+                    Manage Support
                 </Button>
             </View>
         </View>

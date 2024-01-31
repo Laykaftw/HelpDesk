@@ -10,7 +10,7 @@ const AdminLog = ({navigation}) => {
     const checkAdmin = (user, pass) => {
         if (user === "Admin" && pass === "1234") {
             alert("Logged in as admin!");
-            navigation.navigate('Add Support')
+            navigation.navigate('Manage Support')
         } else {
             setTries(tries+1)
             if (tries >= 3) {

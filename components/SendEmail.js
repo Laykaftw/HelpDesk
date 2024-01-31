@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, TextInput, View, useWindowDimensions } from 'react-native';
 import { Button } from 'react-native-paper';
-import { getSelectedEmail } from './DataBase';
+import { getSelectedEmail,addEmailToHistory } from './DataBase';
 import { SelectList } from 'react-native-dropdown-select-list';
 import * as MailComposer from 'expo-mail-composer'
 
@@ -13,8 +13,6 @@ const SendEmail = ({ navigation, route }) => {
     const [selected, setSelected] = useState("");
 
     useEffect(() => {
-        // Fetch the email for the selected support ID
-        console.log(route.params.id)
         if (route.params && route.params.id) {
             getSelectedEmail(route.params.id, handleEmail);
         }
@@ -66,14 +64,16 @@ const SendEmail = ({ navigation, route }) => {
                 boxStyles={{margin: 20,padding: 10,borderColor:'#6C63FF',borderRadius:15,width:width-78, alignItems:'center'}}
                 dropdownStyles={{borderColor:'#6C63FF',height:120,width:width-80}}
                 inputStyles={{color:'#6C63FF'}}
-                dropdownTextStyles={{color:'6C63FF'}}
+                dropdownTextStyles={{color:'#6C63FF'}}
             >
             </SelectList>
             <TextInput
+                
                 style={styles.email}
                 placeholder='Describe your problem'
                 value={body}
                 onChangeText={(text) => setBody(text)}
+                
             />
             <Button onPress={handleSendEmail} buttonColor='white' style={{padding:10,width:200,marginTop:20,borderColor:'#6C63FF',borderWidth:1}}>Send</Button>
             <View >
