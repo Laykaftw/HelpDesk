@@ -70,7 +70,7 @@ export default function HomeScreen({ navigation }) {
         }
     };
     const Call = (r) => {
-        console.log('recipient : ', recipient)
+        // console.log('recipient : ', recipient)
         const args = {
             number: r,
             prompt: true,

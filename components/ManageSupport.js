@@ -9,6 +9,8 @@ const ManageSupport = ({ navigation }) => {
     const { width } = useWindowDimensions();
     const [supportOptions, setSupportOptions] = useState([]);
     const [selectedSupport, setSelectedSupport] = useState('');
+
+
 let options = []
     useFocusEffect(
         useCallback(() => {
@@ -26,13 +28,17 @@ let options = []
         }
         fetchSupportOptions();
     }, []));
+
     
 
     const handleDeleteSupport = () => {
         if (selectedSupport) {
+            const selectedSupportItem = supportOptions.find(option => option.key === selectedSupport);
+            const selectedSupportName = selectedSupportItem ? selectedSupportItem.value : 'Unknown Support';
+
             Alert.alert(
                 'Confirm Deletion',
-                `Are you sure you want to delete the support '${selectedSupport}'?`,
+                `Are you sure you want to delete the support ${selectedSupportName}?`,
                 [
                     {
                         text: 'Cancel',
