@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet, Button, Alert } from 'react-native';
+import { View, TextInput, StyleSheet,  Alert } from 'react-native';
 import { getSelectedSupport, updateSupport } from './DataBase';
+import { Button } from 'react-native-paper';
 
 const UpdateScreen = ({ navigation, route }) => {
     const [name, setName] = useState('');
@@ -39,6 +40,7 @@ const UpdateScreen = ({ navigation, route }) => {
             <TextInput
                 style={styles.input}
                 placeholder='Phone Number'
+                keyboardType='number-pad'
                 value={phone}
                 onChangeText={setPhone}
             />
@@ -48,7 +50,8 @@ const UpdateScreen = ({ navigation, route }) => {
                 value={email}
                 onChangeText={setEmail}
             />
-            <Button title='Update' onPress={handleUpdate} />
+            <Button icon={'update'} onPress={handleUpdate} style={styles.button}>Update</Button>
+
         </View>
     );
 }
@@ -56,10 +59,9 @@ const UpdateScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#fff',
-        padding: 20,
+        paddingTop: 60,
     },
     input: {
         height: 40,
@@ -70,6 +72,13 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
     },
+    button: {
+        padding: 10,
+        width: 200,
+        marginTop: 20,
+        borderColor: '#6C63FF',
+        borderWidth: 1,
+    }
 });
 
 export default UpdateScreen;

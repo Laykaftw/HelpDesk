@@ -120,23 +120,6 @@ const getSelectedPhone = (ID, callback) => {
         );
     });
 };
-const getName = (ID, callback) => {
-    db.transaction(tx => {
-        tx.executeSql(
-            'SELECT Name FROM Support WHERE id=?',
-            [ID],
-            (_, { rows }) => {
-                if (rows.length > 0) {
-                    const name = rows.item(0).Name;
-                    callback(name);
-                } else {
-                    callback(null); // No support found with the given ID
-                }
-            },
-            (_, error) => console.error('Error retrieving support phone:', error)
-        );
-    });
-};
 
 const getSelectedEmail = (ID, callback) => {
     db.transaction(tx => {
@@ -195,7 +178,6 @@ const getSelectedSupport = async (id) => {
 };
 
 const updateSupport = async (id, name, phone, email) => {
-    console.log(id, name, phone, email)
     return new Promise((resolve, reject) => {
         db.transaction(tx => {
             tx.executeSql(
