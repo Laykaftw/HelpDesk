@@ -86,10 +86,10 @@ let options = []
                     style={{ width: width - 10, backgroundColor: '#EAEAEA' }}
                 />
             </View>
-            <Button icon={'delete'} onPress={handleDeleteSupport} style={styles.button}>Delete</Button>
-            <Button icon={'update'} onPress={handleUpdateSupport} style={styles.button}>Update</Button>
-            <Button icon={'plus-circle'} onPress={() => navigation.navigate('Add Support')} style={styles.button}>Add New Support</Button>
-            <Button icon={'delete'} onPress={handleResetSupport} style={styles.button}>Delete All</Button>
+            <Button textColor='white' icon={'delete'} onPress={handleDeleteSupport} style={styles.button}>Delete</Button>
+            <Button textColor='white' icon={'update'} onPress={handleUpdateSupport} style={styles.button}>Update</Button>
+            <Button textColor='white' icon={'plus-circle'} onPress={() => navigation.navigate('Add Support')} style={styles.button}>Add New Support</Button>
+            <Button textColor='white' icon={'delete'} onPress={handleResetSupport} style={styles.button}>Delete All</Button>
         </View>
     );
 }
@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         borderColor: '#367CFF',
         borderWidth: 1,
+        backgroundColor:'#367CFF'
     }
 });
 

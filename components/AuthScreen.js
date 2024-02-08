@@ -78,7 +78,8 @@ const AuthScreen = ({ navigation }) => {
             </View>
             <View style={styles.containers}>
                 <Button
-                    style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
+                    textColor='white'
+                    style={{ width: width - 30, backgroundColor: '#367CFF' }}
                     icon={icon}
                     onPress={authenticate}
                     disabled={authenticationStatus === 'Authenticated'}

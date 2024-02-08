@@ -39,7 +39,7 @@ const SendSMS = ({ route }) => {
                 value={message}
                 onChangeText={(text) => setMessage(text)}
             />
-            <Button buttonColor='#EAEAEA' style={styles.button} icon={'send'} onPress={sendSMS}>Send</Button>
+            <Button textColor='white' buttonColor='#367CFF' style={styles.button} icon={'send'} onPress={sendSMS}>Send</Button>
         </View>
     );
 };

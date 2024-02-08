@@ -37,25 +37,25 @@ export default function HomeScreen({ navigation }) {
         checkSMSAvailability();
         checkCallAvailability();
     }, []);
-    
+
     let options = []
     useFocusEffect(
         useCallback(() => {
-        async function fetchSupportOptions() {
-            // console.log('test')
-            getSupportList((supportItems) => {
-                options = supportItems.map((item) => ({
-                    key: item.id.toString(),
-                    value: item.Name,
-                }));
-                setSupportOptions(options)
-              //  supportOptions.push(options)
+            async function fetchSupportOptions() {
+                // console.log('test')
+                getSupportList((supportItems) => {
+                    options = supportItems.map((item) => ({
+                        key: item.id.toString(),
+                        value: item.Name,
+                    }));
+                    setSupportOptions(options)
+                    //  supportOptions.push(options)
 
-            });
-        }
-        fetchSupportOptions();
-    }, []));
-    
+                });
+            }
+            fetchSupportOptions();
+        }, []));
+
 
 
 
@@ -90,7 +90,7 @@ export default function HomeScreen({ navigation }) {
             console.error('No support option selected.');
         }
     };
-    
+
     return (
         <View style={styles.container}>
             <View style={{ width: width - 30 }}>
@@ -99,32 +99,34 @@ export default function HomeScreen({ navigation }) {
                     setSelected={(item) => setSelectedSupport(item)}
                     onSelect={(selectedId) => {
                         if (selectedId) {
-                            console.log("selectedId",selectedId)
+                            console.log("selectedId", selectedId)
                             getSelectedPhone(selectedId, handlePhone);
                         }
                     }}
-                    boxStyles={{margin: 20,padding: 10,borderColor:'#367CFF',borderRadius:15, alignItems:'center'}}
-                    dropdownStyles={{borderColor:'#367CFF'}}
-                    inputStyles={{color:'#367CFF'}}
+                    boxStyles={{ margin: 20, padding: 10, borderColor: '#367CFF', borderRadius: 15, alignItems: 'center' }}
+                    dropdownStyles={{ borderColor: '#367CFF' }}
+                    inputStyles={{ color: '#367CFF' }}
                     data={supportOptions}
                     zIndex={3000}
-                    style={{ width: width - 10, backgroundColor: '#EAEAEA' }}
+                    style={{ width: width - 10, backgroundColor: '#367CFF' }}
                 />
-            
+
             </View>
             <View style={styles.containers}>
                 {isCallAvailable == true && selectedSupport != '' ? (
                     <Button
+                        textColor='white'
                         icon="phone"
                         onPress={HandleCall}
-                        style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
+                        style={{ width: width - 30, backgroundColor: '#367CFF' }}
                     >
                         Call Us
                     </Button>
                 ) : (
                     <Button
+                        textColor='white'
                         icon="phone-cancel"
-                        style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
+                        style={{ width: width - 30, backgroundColor: '#367CFF' }}
                     >
                         Call Not Available
                     </Button>
@@ -133,7 +135,8 @@ export default function HomeScreen({ navigation }) {
             <View style={styles.containers}>
                 {isAvailable == true && selectedSupport != '' ? (
                     <Button
-                        style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
+                        textColor='white'
+                        style={{ width: width - 30, backgroundColor: '#367CFF' }}
                         onPress={() => navigation.navigate('SMS', { id: selectedSupport })}
                         icon="message"
                     >
@@ -141,7 +144,8 @@ export default function HomeScreen({ navigation }) {
                     </Button>
                 ) : (
                     <Button
-                        style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
+                        textColor='white'
+                        style={{ width: width - 30, backgroundColor: '#367CFF' }}
                         icon="message-alert"
                     >
                         SMS not available
@@ -151,7 +155,8 @@ export default function HomeScreen({ navigation }) {
             <View style={styles.containers}>
                 {isMailAvailable == true && selectedSupport != '' ? (
                     <Button
-                        style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
+                        textColor='white'
+                        style={{ width: width - 30, backgroundColor: '#367CFF' }}
                         icon="email-edit"
                         onPress={() => navigation.navigate('Email', { id: selectedSupport })}
                     >
@@ -159,7 +164,8 @@ export default function HomeScreen({ navigation }) {
                     </Button>
                 ) : (
                     <Button
-                        style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
+                        textColor='white'
+                        style={{ width: width - 30, backgroundColor: '#367CFF' }}
                         icon="email-remove"
                     >
                         Email Not Available
@@ -168,7 +174,8 @@ export default function HomeScreen({ navigation }) {
             </View>
             <View style={styles.containers}>
                 <Button
-                    style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
+                    textColor='white'
+                    style={{ width: width - 30, backgroundColor: '#367CFF' }}
                     icon="account-off"
                     onPress={() => {
                         navigation.navigate('Authentification');
@@ -179,7 +186,8 @@ export default function HomeScreen({ navigation }) {
             </View>
             <View style={styles.containers}>
                 <Button
-                    style={{ width: width - 30, backgroundColor: '#EAEAEA' }}
+                    textColor='white'
+                    style={{ width: width - 30, backgroundColor: '#367CFF' }}
                     icon="align-horizontal-left"
                     onPress={() => {
                         // navigation.navigate('AdminLog');
