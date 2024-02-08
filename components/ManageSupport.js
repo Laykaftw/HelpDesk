@@ -69,7 +69,27 @@ let options = []
         }
     };
     const handleResetSupport =()=>{
-        resetSupport();
+        Alert.alert(
+            'Confirm Deletion',
+            `Are you sure you want to delete all supports ?`,
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel',
+                },
+                {
+                    text: 'Delete',
+                    onPress: async () => {
+                        resetSupport();
+                        setSelectedSupport('');
+                        fetchSupportOptions(); // Refresh support options after deletion
+                    },
+                    style: 'destructive',
+                },
+            ],
+            { cancelable: true }
+        );
+        
     }
 
     return (

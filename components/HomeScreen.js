@@ -178,7 +178,7 @@ export default function HomeScreen({ navigation }) {
                     style={{ width: width - 30, backgroundColor: '#367CFF' }}
                     icon="account-off"
                     onPress={() => {
-                        navigation.navigate('Authentification');
+                        navigation.navigate('Authentication');
                     }}
                 >
                     Log Out
@@ -190,8 +190,8 @@ export default function HomeScreen({ navigation }) {
                     style={{ width: width - 30, backgroundColor: '#367CFF' }}
                     icon="align-horizontal-left"
                     onPress={() => {
-                        // navigation.navigate('AdminLog');
-                        navigation.navigate('Manage Support');
+                        navigation.navigate('AdminLog');
+                        // navigation.navigate('Manage Support');
 
                     }}
                 >

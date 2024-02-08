@@ -43,7 +43,7 @@ const AddSupport = ({ navigation }) => {
                 value={email}
                 onChangeText={(text) => setEmail(text)}
             />
-            <Button onPress={handleAddSupport}>Add</Button>
+            <Button textColor='white' style={styles.button} onPress={handleAddSupport}>Add</Button>
         </View>
     );
 };
@@ -68,4 +68,12 @@ const styles = StyleSheet.create({
         height: 55,
         backgroundColor: 'white',
     },
+    button: {
+        padding: 10,
+        width: 200,
+        marginTop: 20,
+        borderColor: '#367CFF',
+        borderWidth: 1,
+        backgroundColor: '#367CFF'
+    }
 });

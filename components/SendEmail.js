@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, TextInput, View, useWindowDimensions } from 'react-native';
 import { Button } from 'react-native-paper';
-import { getSelectedEmail,addEmailToHistory } from './DataBase';
+import { getSelectedEmail, addEmailToHistory } from './DataBase';
 import { SelectList } from 'react-native-dropdown-select-list';
 import * as MailComposer from 'expo-mail-composer'
 
@@ -9,7 +9,7 @@ const SendEmail = ({ navigation, route }) => {
     const [subject, setSubject] = useState('');
     const [body, setBody] = useState('');
     const [recipient, setRecipient] = useState('');
-    const {width}=useWindowDimensions()
+    const { width } = useWindowDimensions()
     const [selected, setSelected] = useState("");
 
     useEffect(() => {
@@ -28,7 +28,7 @@ const SendEmail = ({ navigation, route }) => {
         }
     };
     const data = [
-        { key: '1', value: 'Complaint'},
+        { key: '1', value: 'Complaint' },
         { key: '2', value: 'Assistance' },
         { key: '3', value: 'Suggestions' },
     ]
@@ -36,7 +36,7 @@ const SendEmail = ({ navigation, route }) => {
     const handleSendEmail = () => {
         MailComposer.composeAsync({
             subject: subject,
-            body: "Category : "+selected +"\n\n"+body,
+            body: "Category : " + selected + "\n\n" + body,
             recipients: [recipient]
         }).then(result => {
             console.log(result)
@@ -55,29 +55,27 @@ const SendEmail = ({ navigation, route }) => {
                 value={subject}
                 onChangeText={(text) => setSubject(text)}
             />
-            <SelectList 
+            <SelectList
                 placeholder='Select a Category'
-                setSelected={(val) => setSelected(val)} 
+                setSelected={(val) => setSelected(val)}
                 data={data}
                 save="value"
                 zIndex={3000}
-                boxStyles={{margin: 20,padding: 10,borderColor:'#367CFF',borderRadius:15,width:width-78, alignItems:'center'}}
-                dropdownStyles={{borderColor:'#367CFF',height:120,width:width-80}}
-                inputStyles={{color:'#367CFF'}}
-                dropdownTextStyles={{color:'#367CFF'}}
+                boxStyles={{ margin: 20, padding: 10, borderColor: '#367CFF', borderRadius: 15, width: width - 78, alignItems: 'center' }}
+                dropdownStyles={{ borderColor: '#367CFF', height: 120, width: width - 80 }}
+                inputStyles={{ color: '#367CFF' }}
+                dropdownTextStyles={{ color: '#367CFF' }}
             >
             </SelectList>
             <TextInput
-                
                 style={styles.email}
                 placeholder='Describe your problem'
                 value={body}
                 onChangeText={(text) => setBody(text)}
-                
             />
-            <Button onPress={handleSendEmail} buttonColor='white' style={{padding:10,width:200,marginTop:20,borderColor:'#367CFF',borderWidth:1}}>Send</Button>
+            <Button textColor='white' onPress={handleSendEmail} style={styles.button}>Send</Button>
             <View >
-                <Button buttonColor='white'  icon={'history'} onPress={() => navigation.navigate('History')} style={{padding:10,width:200,marginTop:20,borderColor:'#367CFF',borderWidth:1}}>History</Button>
+                <Button textColor='white' icon={'history'} onPress={() => navigation.navigate('History')} style={styles.button}>History</Button>
             </View>
         </View>
     );
@@ -115,4 +113,13 @@ const styles = StyleSheet.create({
         height: 155,
         backgroundColor: 'white'
     },
+    button: {
+        padding: 10,
+        width: 200,
+        marginTop: 20,
+        borderColor: '#367CFF',
+        borderWidth: 1,
+        backgroundColor: '#367CFF'
+    }
 });
+

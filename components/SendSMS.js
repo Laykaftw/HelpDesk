@@ -39,7 +39,7 @@ const SendSMS = ({ route }) => {
                 value={message}
                 onChangeText={(text) => setMessage(text)}
             />
-            <Button textColor='white' buttonColor='#367CFF' style={styles.button} icon={'send'} onPress={sendSMS}>Send</Button>
+            <Button  textColor='white' icon={'send'} onPress={sendSMS} buttonColor='white' style={styles.button}>Send</Button>
         </View>
     );
 };
@@ -50,22 +50,28 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
-        backgroundColor: '#367CFF',
+        backgroundColor: '#fff',
     },
     input: {
-        height: 100,
-        borderColor: 'gray',
+        height: 40,
+        borderColor: '#367CFF',
         borderWidth: 1,
-        borderRadius: 25,
-        marginBottom: 20,
+        borderRadius: 15,
+        margin: 20,
         padding: 10,
         width: '90%',
         height: 55,
         backgroundColor: 'white'
     },
     button: {
-        width: '60%'
+        padding: 10,
+        width: 200,
+        marginTop: 20,
+        borderColor: '#367CFF',
+        borderWidth: 1,
+        backgroundColor:'#367CFF'
     }
 });
+
 
 export default SendSMS;

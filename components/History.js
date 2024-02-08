@@ -33,7 +33,7 @@ const History = () => {
                     </View>
                 ))}
             </View>
-            <Button icon={'delete-empty'} onPress={handleResetHistory} style={{padding:10,width:200,marginTop:20,borderColor:'#367CFF',borderWidth:1,backgroundColor:'white'}}>Reset History</Button>
+            <Button textColor='#367CFF' icon={'delete-empty'} onPress={handleResetHistory} style={{padding:10,width:200,marginTop:20,borderColor:'#367CFF',borderWidth:1,backgroundColor:'white'}}>Reset History</Button>
         </View>
     );
 };

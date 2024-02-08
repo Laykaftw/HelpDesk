@@ -50,7 +50,7 @@ const UpdateScreen = ({ navigation, route }) => {
                 value={email}
                 onChangeText={setEmail}
             />
-            <Button icon={'update'} onPress={handleUpdate} style={styles.button}>Update</Button>
+            <Button textColor='white' icon={'update'} onPress={handleUpdate} style={styles.button}>Update</Button>
 
         </View>
     );
@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         borderColor: '#367CFF',
         borderWidth: 1,
+        backgroundColor: '#367CFF'
     }
 });
 
