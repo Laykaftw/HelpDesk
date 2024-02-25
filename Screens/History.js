@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, useWindowDimensions } from 'react-native';
-import { getEmailHistory, resetHistory } from './DataBase';
+import { getEmailHistory, resetHistory } from '../components/DataBase';
 import { Button } from 'react-native-paper';
 
 const History = () => {
@@ -8,17 +8,17 @@ const History = () => {
     const [emailHistory, setEmailHistory] = useState([]);
 
     const refreshHistory = () => {
-        getEmailHistory(setEmailHistory);
+        getEmailHistory(setEmailHistory); // Fetches email history from the database and updates the state
     };
 
     useEffect(() => {
         // Retrieve email history when component mounts
-        getEmailHistory(setEmailHistory);
+        getEmailHistory(setEmailHistory); // Fetches email history from the database and updates the state
     }, []);
 
     const handleResetHistory = () => {
-        resetHistory();
-        refreshHistory(); // Refresh history after reset
+        resetHistory(); // Resets the email history in the database
+        refreshHistory(); // Refreshes the email history after reset
     };
 
     return (
@@ -33,7 +33,7 @@ const History = () => {
                     </View>
                 ))}
             </View>
-            <Button textColor='#367CFF' icon={'delete-empty'} onPress={handleResetHistory} style={{padding:10,width:200,marginTop:20,borderColor:'#367CFF',borderWidth:1,backgroundColor:'white'}}>Reset History</Button>
+            <Button textColor='#367CFF' icon={'delete-empty'} onPress={handleResetHistory} style={{ padding: 10, width: 200, marginTop: 20, borderColor: '#367CFF', borderWidth: 1, backgroundColor: 'white' }}>Reset History</Button>
         </View>
     );
 };
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 10,
-        color:'#367CFF'
+        color: '#367CFF'
     },
     emailContainer: {
         marginBottom: 20,

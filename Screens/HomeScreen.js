@@ -4,10 +4,11 @@ import call from 'react-native-phone-call';
 import * as SMS from 'expo-sms';
 import { Button } from 'react-native-paper';
 import { SelectList } from 'react-native-dropdown-select-list'; // Import SelectList
-import { getSupportList, getSelectedPhone } from './DataBase';
+import { getSupportList, getSelectedPhone } from '../components/DataBase';
 import { useFocusEffect } from '@react-navigation/native';
 
 export default function HomeScreen({ navigation }) {
+    // State variables
     const [isCallAvailable, setIsCallAvailable] = useState(false);
     const [isAvailable, setIsAvailable] = useState(false);
     const [isMailAvailable, setIsMailAvailable] = useState(false);
@@ -17,66 +18,68 @@ export default function HomeScreen({ navigation }) {
     const [recipient, setRecipient] = useState('');
 
     useEffect(() => {
+        // Check if SMS is available
         async function checkMailAvailability() {
             const isMavailable = await SMS.isAvailableAsync();
             setIsMailAvailable(isMavailable);
         }
 
+        // Check if phone call is available
         async function checkCallAvailability() {
             Linking.canOpenURL('tel:+123456789').then((isCavailable) => {
                 setIsCallAvailable(isCavailable);
             });
         }
 
+        // Check if SMS is available
         async function checkSMSAvailability() {
             const isSMSavailable = await SMS.isAvailableAsync();
             setIsAvailable(isSMSavailable);
         }
 
+        // Call the availability check functions
         checkMailAvailability();
         checkSMSAvailability();
         checkCallAvailability();
     }, []);
 
-    let options = []
+    let options = [];
+
     useFocusEffect(
         useCallback(() => {
+            // Fetch support options from the database
             async function fetchSupportOptions() {
-                // console.log('test')
                 getSupportList((supportItems) => {
+                    // Map the support items to options array
                     options = supportItems.map((item) => ({
                         key: item.id.toString(),
                         value: item.Name,
                     }));
-                    setSupportOptions(options)
-                    //  supportOptions.push(options)
-
+                    setSupportOptions(options);
                 });
             }
             fetchSupportOptions();
-        }, []));
-
-
-
+        }, [])
+    );
 
     const handlePhone = (selectedPhone) => {
         if (selectedPhone) {
             // Set the recipient state with the retrieved phone number
             setRecipient(selectedPhone);
-            // console.log('recipient :  ',recipient)
         } else {
             // Handle the case where no phone number is found for the selected ID
             console.error('No phone number found for the selected ID.');
         }
     };
+
     const Call = (r) => {
-        // console.log('recipient : ', recipient)
         const args = {
             number: r,
             prompt: true,
         };
         call(args).catch(console.error);
     };
+
     const HandleCall = () => {
         if (selectedSupport) {
             getSelectedPhone(selectedSupport, (selectedPhone) => {
@@ -99,7 +102,6 @@ export default function HomeScreen({ navigation }) {
                     setSelected={(item) => setSelectedSupport(item)}
                     onSelect={(selectedId) => {
                         if (selectedId) {
-                            console.log("selectedId", selectedId)
                             getSelectedPhone(selectedId, handlePhone);
                         }
                     }}
@@ -110,9 +112,9 @@ export default function HomeScreen({ navigation }) {
                     zIndex={3000}
                     style={{ width: width - 10, backgroundColor: '#367CFF' }}
                 />
-
             </View>
             <View style={styles.containers}>
+                {/* Render the Call Us button */}
                 {isCallAvailable == true && selectedSupport != '' ? (
                     <Button
                         textColor='white'
@@ -185,14 +187,13 @@ export default function HomeScreen({ navigation }) {
                 </Button>
             </View>
             <View style={styles.containers}>
+                {/* Render the Manage Support button */}
                 <Button
                     textColor='white'
                     style={{ width: width - 30, backgroundColor: '#367CFF' }}
                     icon="align-horizontal-left"
                     onPress={() => {
                         navigation.navigate('AdminLog');
-                        // navigation.navigate('Manage Support');
-
                     }}
                 >
                     Manage Support

@@ -1,34 +1,47 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, Alert } from 'react-native';
 import { Button } from 'react-native-paper';
-import { addSupport } from './DataBase';
+import { addSupport } from '../components/DataBase';
 
+// Define the AddSupport component
 const AddSupport = ({ navigation }) => {
+    // Define state variables for name, phone, and email
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
 
+    // Function to handle adding support
     const handleAddSupport = () => {
+        // Check if any field is empty
         if (!name || !phone || !email) {
             Alert.alert('Missing Information', 'Please fill in all fields.');
             return;
         }
 
+        // Call the addSupport function from the database component
         addSupport(name, phone, email);
+
+        // Clear the input fields
         setName('');
         setPhone('');
         setEmail('');
+
+        // Navigate to the 'Manage Support' screen
         navigation.navigate('Manage Support');
     };
 
+    // Render the AddSupport component
     return (
         <View style={styles.container}>
+            {/* Input field for department name */}
             <TextInput
                 style={styles.input}
                 placeholder='Department Name'
                 value={name}
                 onChangeText={(text) => setName(text)}
             />
+
+            {/* Input field for phone number */}
             <TextInput
                 style={styles.input}
                 placeholder='Phone Number'
@@ -36,6 +49,8 @@ const AddSupport = ({ navigation }) => {
                 value={phone}
                 onChangeText={(text) => setPhone(text)}
             />
+
+            {/* Input field for email */}
             <TextInput
                 style={styles.input}
                 placeholder='Email'
@@ -43,6 +58,8 @@ const AddSupport = ({ navigation }) => {
                 value={email}
                 onChangeText={(text) => setEmail(text)}
             />
+
+            {/* Button to add support */}
             <Button textColor='white' style={styles.button} onPress={handleAddSupport}>Add</Button>
         </View>
     );
@@ -50,12 +67,12 @@ const AddSupport = ({ navigation }) => {
 
 export default AddSupport;
 
+// Styles for the AddSupport component
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        // justifyContent: 'center',
     },
     input: {
         height: 40,

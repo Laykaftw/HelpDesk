@@ -1,17 +1,16 @@
 import React from "react";
-import { StyleSheet } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from "./components/HomeScreen";
-import Onboarding from "./components/Onboarding";
-import SendSMS from "./components/SendSMS";
-import SendEmail from "./components/SendEmail";
-import AuthScreen from "./components/AuthScreen";
-import AddSupport from "./components/AddSupport";
-import AdminLog from "./components/AdminLog";
-import History from "./components/History";
-import ManageSupport from "./components/ManageSupport";
-import UpdateSupport from "./components/UpdateSupport";
+import HomeScreen from "./Screens/HomeScreen";
+import Onboarding from "./Screens/Onboarding";
+import SendSMS from "./Screens/SendSMS";
+import SendEmail from "./Screens/SendEmail";
+import AuthScreen from "./Screens/AuthScreen";
+import AddSupport from "./Screens/AddSupport";
+import AdminLog from "./Screens/AdminLog";
+import History from "./Screens/History";
+import ManageSupport from "./Screens/ManageSupport";
+import UpdateSupport from "./Screens/UpdateSupport";
 
 export default function App() {
   const Stack = createNativeStackNavigator();

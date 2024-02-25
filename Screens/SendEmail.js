@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, TextInput, View, useWindowDimensions } from 'react-native';
 import { Button } from 'react-native-paper';
-import { getSelectedEmail, addEmailToHistory } from './DataBase';
+import { getSelectedEmail, addEmailToHistory } from '../components/DataBase';
 import { SelectList } from 'react-native-dropdown-select-list';
 import * as MailComposer from 'expo-mail-composer'
 
@@ -13,6 +13,7 @@ const SendEmail = ({ navigation, route }) => {
     const [selected, setSelected] = useState("");
 
     useEffect(() => {
+        // Fetch the selected email from the database when the route params change
         if (route.params && route.params.id) {
             getSelectedEmail(route.params.id, handleEmail);
         }
@@ -27,6 +28,7 @@ const SendEmail = ({ navigation, route }) => {
             console.error('No email found for the selected ID.');
         }
     };
+
     const data = [
         { key: '1', value: 'Complaint' },
         { key: '2', value: 'Assistance' },
@@ -34,6 +36,7 @@ const SendEmail = ({ navigation, route }) => {
     ]
 
     const handleSendEmail = () => {
+        // Compose and send the email using the MailComposer API
         MailComposer.composeAsync({
             subject: subject,
             body: "Category : " + selected + "\n\n" + body,
@@ -122,4 +125,3 @@ const styles = StyleSheet.create({
         backgroundColor: '#367CFF'
     }
 });
-

@@ -4,11 +4,13 @@ import React, { useState, useCallback } from 'react';
 import { Button } from 'react-native-paper';
 import * as LocalAuthentication from 'expo-local-authentication';
 
+// AuthScreen component
 const AuthScreen = ({ navigation }) => {
     const [authenticationStatus, setAuthenticationStatus] = useState(null);
     const [icon, setIcon] = useState('fingerprint');
     const { width } = useWindowDimensions();
 
+    // Function to clear authentication data
     const ClearAuth = useCallback(async () => {
         try {
             setAuthenticationStatus(null);
@@ -19,6 +21,7 @@ const AuthScreen = ({ navigation }) => {
         }
     }, []);
 
+    // Function to authenticate user using local authentication
     const authenticate = async () => {
         try {
             const result = await LocalAuthentication.authenticateAsync();
@@ -55,12 +58,14 @@ const AuthScreen = ({ navigation }) => {
         }
     };
 
+    // Hook to clear authentication data when the screen gains focus
     useFocusEffect(
         useCallback(() => {
             ClearAuth();
         }, [ClearAuth])
     );
 
+    // Render the AuthScreen component
     return (
         <View style={styles.container}>
             <View>

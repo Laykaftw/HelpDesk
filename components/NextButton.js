@@ -1,4 +1,4 @@
-import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Animated, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useRef } from 'react'
 import { Svg, G, Circle } from 'react-native-svg';
 import { AntDesign } from "@expo/vector-icons"
@@ -12,7 +12,7 @@ export default function NextButton({ percentage, scrollTo }) {
     const progressAnimation = useRef(new Animated.Value(0)).current;
     const progressRef = useRef(null)
 
-
+    // Function to animate the progress circle
     const animation = (toValue) => {
         return Animated.timing(progressAnimation, {
             toValue,
@@ -22,10 +22,12 @@ export default function NextButton({ percentage, scrollTo }) {
     };
 
     useEffect(() => {
+        // Trigger the animation when the percentage prop changes
         animation(percentage);
     }, [percentage]);
 
     useEffect(() => {
+        // Update the strokeDashoffset of the progress circle based on the animation value
         progressAnimation.addListener((value) => {
             const strokeDashoffset = circumference - (circumference * value.value) / 100;
             if (progressRef?.current) {
@@ -33,10 +35,10 @@ export default function NextButton({ percentage, scrollTo }) {
                     strokeDashoffset
                 })
             }
-        }, [percentage]
-        );
+        }, [percentage]);
 
         return () => {
+            // Clean up the progressAnimation listener
             progressAnimation.removeAllListeners()
         };
     }, []);

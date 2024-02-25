@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet,  Alert } from 'react-native';
-import { getSelectedSupport, updateSupport } from './DataBase';
+import { View, TextInput, StyleSheet, Alert } from 'react-native';
+import { getSelectedSupport, updateSupport } from '../components/DataBase';
 import { Button } from 'react-native-paper';
 
 const UpdateScreen = ({ navigation, route }) => {
@@ -9,6 +9,7 @@ const UpdateScreen = ({ navigation, route }) => {
     const [email, setEmail] = useState('');
 
     useEffect(() => {
+        // Fetch support details from the database based on the selected support ID
         async function fetchSupportDetails() {
             const supportDetails = await getSelectedSupport(route.params.id);
             setName(supportDetails.Name);
@@ -20,6 +21,7 @@ const UpdateScreen = ({ navigation, route }) => {
 
     const handleUpdate = async () => {
         try {
+            // Update the support information in the database
             await updateSupport(route.params.id, name, phone, email);
             Alert.alert('Update Successful', 'Department information updated successfully.');
             navigation.navigate('Manage Support');

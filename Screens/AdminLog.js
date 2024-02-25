@@ -11,6 +11,7 @@ const AdminLog = ({navigation}) => {
         if (user === "Admin" && pass === "1234") {
             alert("Logged in as admin!");
             navigation.navigate('Manage Support')
+            //this part was supposed to be linked to the database but due to the time constraints, I was unable to do so
         } else {
             setTries(tries+1)
             if (tries >= 3) {

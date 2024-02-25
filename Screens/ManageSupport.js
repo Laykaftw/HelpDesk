@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { StyleSheet, View, useWindowDimensions, Alert } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list';
-import { getSupportList, deleteSelectedSupport, resetSupport } from './DataBase';
+import { getSupportList, deleteSelectedSupport, resetSupport } from '../components/DataBase';
 import { Button } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -10,27 +10,24 @@ const ManageSupport = ({ navigation }) => {
     const [supportOptions, setSupportOptions] = useState([]);
     const [selectedSupport, setSelectedSupport] = useState('');
 
-
-let options = []
+    // Fetch support options when the screen is focused
     useFocusEffect(
         useCallback(() => {
-        async function fetchSupportOptions() {
-            // console.log('test')
-            getSupportList((supportItems) => {
-                options = supportItems.map((item) => ({
-                    key: item.id.toString(),
-                    value: item.Name,
-                }));
-                setSupportOptions(options)
-              //  supportOptions.push(options)
+            async function fetchSupportOptions() {
+                getSupportList((supportItems) => {
+                    // Map support items to options array
+                    const options = supportItems.map((item) => ({
+                        key: item.id.toString(),
+                        value: item.Name,
+                    }));
+                    setSupportOptions(options);
+                });
+            }
+            fetchSupportOptions();
+        }, [])
+    );
 
-            });
-        }
-        fetchSupportOptions();
-    }, []));
-
-    
-
+    // Handle deletion of selected support
     const handleDeleteSupport = () => {
         if (selectedSupport) {
             const selectedSupportItem = supportOptions.find(option => option.key === selectedSupport);
@@ -61,6 +58,7 @@ let options = []
         }
     };
 
+    // Handle updating of selected support
     const handleUpdateSupport = () => {
         if (selectedSupport) {
             navigation.navigate('Update Support', { id: selectedSupport });
@@ -68,10 +66,12 @@ let options = []
             Alert.alert('No Support Selected', 'Please select a support option before updating.');
         }
     };
-    const handleResetSupport =()=>{
+
+    // Handle resetting of all supports
+    const handleResetSupport = () => {
         Alert.alert(
             'Confirm Deletion',
-            `Are you sure you want to delete all supports ?`,
+            `Are you sure you want to delete all supports?`,
             [
                 {
                     text: 'Cancel',
@@ -89,8 +89,7 @@ let options = []
             ],
             { cancelable: true }
         );
-        
-    }
+    };
 
     return (
         <View style={styles.container}>
@@ -98,9 +97,9 @@ let options = []
                 <SelectList
                     placeholder='Select the Department'
                     setSelected={(item) => setSelectedSupport(item)}
-                    boxStyles={{margin: 20,padding: 10,borderColor:'#367CFF',borderRadius:15, alignItems:'center'}}
-                    dropdownStyles={{borderColor:'#367CFF'}}
-                    inputStyles={{color:'#367CFF'}}
+                    boxStyles={{ margin: 20, padding: 10, borderColor: '#367CFF', borderRadius: 15, alignItems: 'center' }}
+                    dropdownStyles={{ borderColor: '#367CFF' }}
+                    inputStyles={{ color: '#367CFF' }}
                     data={supportOptions}
                     zIndex={3000}
                     style={{ width: width - 10, backgroundColor: '#EAEAEA' }}
@@ -127,7 +126,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         borderColor: '#367CFF',
         borderWidth: 1,
-        backgroundColor:'#367CFF'
+        backgroundColor: '#367CFF'
     }
 });
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, TextInput, useWindowDimensions } from 'react-native';
 import * as SMS from 'expo-sms';
 import { Button } from 'react-native-paper';
-import { getSelectedPhone } from './DataBase';
+import { getSelectedPhone } from '../components/DataBase';
 
 const SendSMS = ({ route }) => {
     const [message, setMessage] = useState('');

@@ -7,30 +7,38 @@ export default function Paginator({ data, scrollX }) {
     return (
         <View style={{ flexDirection: 'row', height: 64 }}>
             {data.map((_, i) => {
-                const inputRange = [(i - 1) * width, i * width,(i+1)*width];
+                // Calculate the input range for the current dot
+                const inputRange = [(i - 1) * width, i * width, (i + 1) * width];
 
-                const dotWidth= scrollX.interpolate({
+                // Interpolate the dot width based on the scroll position
+                const dotWidth = scrollX.interpolate({
                     inputRange,
-                    outputRange :[10,20,10],
-                    extrapolate:'clamp',
+                    outputRange: [10, 20, 10],
+                    extrapolate: 'clamp',
                 });
-                const opacity=scrollX.interpolate({
+
+                // Interpolate the dot opacity based on the scroll position
+                const opacity = scrollX.interpolate({
                     inputRange,
-                    outputRange:[0.3,1,0.3],
-                    extrapolate:'clamp',
-                })
+                    outputRange: [0.3, 1, 0.3],
+                    extrapolate: 'clamp',
+                });
+
                 return (
-                    <Animated.View 
-                    style={[
-                        styles.dot, { 
-                            width: dotWidth ,
-                            opacity,
-                        }]} 
-                
-                    key={i.toString()} />)
+                    <Animated.View
+                        style={[
+                            styles.dot,
+                            {
+                                width: dotWidth,
+                                opacity,
+                            },
+                        ]}
+                        key={i.toString()}
+                    />
+                );
             })}
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -39,5 +47,5 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: '#493D8A',
         marginHorizontal: 8,
-    }
-})
+    },
+});
